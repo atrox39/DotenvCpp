@@ -24,3 +24,6 @@ certificate.pfx
 # OS files
 Thumbs.db
 .DS_Store
+
+# dist script
+dist.ps1
