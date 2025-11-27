@@ -1,0 +1,4 @@
+# GitHub Pages Configuration
+theme: jekyll-theme-cayman
+title: Dotenv C++ Library
+description: Load environment variables from .env files with ease

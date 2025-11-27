@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dotenv C++ Library - Documentation</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f5f5f5;
+    }
+
+    header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 2rem 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+
+    nav {
+      background: white;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      padding: 1rem 0;
+    }
+
+    nav li {
+      margin-right: 2rem;
+    }
+
+    nav a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #764ba2;
+    }
+
+    main {
+      background: white;
+      margin: 2rem auto;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 3rem;
+    }
+
+    section {
+      margin-bottom: 3rem;
+    }
+
+    h2 {
+      color: #667eea;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 3px solid #667eea;
+    }
+
+    h3 {
+      color: #764ba2;
+      font-size: 1.5rem;
+      margin: 2rem 0 1rem 0;
+    }
+
+    h4 {
+      color: #555;
+      font-size: 1.2rem;
+      margin: 1.5rem 0 0.5rem 0;
+    }
+
+    pre {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 1.5rem;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+    }
+
+    code {
+      font-family: 'Courier New', monospace;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .feature-card {
+      background: #f8f9fa;
+      padding: 1.5rem;
+      border-radius: 8px;
+      border-left: 4px solid #667eea;
+    }
+
+    .feature-card h4 {
+      margin-top: 0;
+      color: #667eea;
+    }
+
+    .btn {
+      display: inline-block;
+      background: #667eea;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.3s;
+      margin-right: 1rem;
+    }
+
+    .btn:hover {
+      background: #764ba2;
+    }
+
+    .btn-secondary {
+      background: #6c757d;
+    }
+
+    .btn-secondary:hover {
+      background: #5a6268;
+    }
+
+    footer {
+      background: #2d2d2d;
+      color: white;
+      text-align: center;
+      padding: 2rem 0;
+      margin-top: 3rem;
+    }
+
+    .warning {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 4px;
+    }
+
+    .info {
+      background: #d1ecf1;
+      border-left: 4px solid #17a2b8;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 4px;
+    }
+
+    ul,
+    ol {
+      margin-left: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+    }
+
+    th,
+    td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background: #667eea;
+      color: white;
+      font-weight: 600;
+    }
+
+    tr:hover {
+      background: #f8f9fa;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="container">
+      <h1>🔐 Dotenv C++ Library</h1>
+      <p>Load environment variables from .env files with ease</p>
+    </div>
+  </header>
+
+  <nav>
+    <div class="container">
+      <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#usage">Usage</a></li>
+        <li><a href="#api">API Reference</a></li>
+        <li><a href="#building">Building</a></li>
+        <li><a href="#signing">Code Signing</a></li>
+        <li><a href="https://github.com/atrox39/DotenvCpp">GitHub</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section id="overview">
+      <h2>Overview</h2>
+      <p>Dotenv C++ is a lightweight library that allows you to load environment variables from <code>.env</code> files
+        into your application. This is particularly useful for managing configuration across different environments
+        without hardcoding sensitive information.</p>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h4>📁 Simple File Format</h4>
+          <p>Uses standard .env file format with key=value pairs</p>
+        </div>
+        <div class="feature-card">
+          <h4>🔤 Quoted Values</h4>
+          <p>Full support for quoted string values</p>
+        </div>
+        <div class="feature-card">
+          <h4>🌐 Cross-Platform</h4>
+          <p>Works on Windows and Linux systems</p>
+        </div>
+        <div class="feature-card">
+          <h4>📦 Shared Library</h4>
+          <p>Distributed as DLL for easy integration</p>
+        </div>
+        <div class="feature-card">
+          <h4>🔌 Multiple APIs</h4>
+          <p>C++ and C interfaces available</p>
+        </div>
+        <div class="feature-card">
+          <h4>⚡ Dynamic Loading</h4>
+          <p>Runtime DLL loading supported</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="installation">
+      <h2>Installation</h2>
+
+      <h3>Download</h3>
+      <p>Download the latest release from the <a href="https://github.com/atrox39/DotenvCpp/releases">GitHub releases
+          page</a>.</p>
+
+      <h3>Files Included</h3>
+      <ul>
+        <li><code>dotenv.dll</code> - The shared library</li>
+        <li><code>libdotenv.a</code> - Import library for linking</li>
+        <li><code>dotenv.hpp</code> - C++ header file</li>
+      </ul>
+
+      <h3>Quick Setup</h3>
+      <ol>
+        <li>Copy <code>dotenv.dll</code> and <code>libdotenv.a</code> to your project's library directory</li>
+        <li>Copy <code>dotenv.hpp</code> to your project's include directory</li>
+        <li>Link against the library in your build configuration</li>
+      </ol>
+    </section>
+
+    <section id="usage">
+      <h2>Usage</h2>
+
+      <h3>1. Create a .env file</h3>
+      <pre><code># .env file
+DATABASE_URL=postgresql://localhost/mydb
+API_KEY="your-api-key-here"
+PORT=3000
+DEBUG=true</code></pre>
+
+      <h3>2. C++ API</h3>
+      <p>The simplest way to use the library:</p>
+      <pre><code>#include "dotenv.hpp"
+
+int main() {
+    // Load environment variables from .env
+    Dotenv::load(".env");
+    
+    // Access variables using standard methods
+    const char* dbUrl = std::getenv("DATABASE_URL");
+    const char* apiKey = std::getenv("API_KEY");
+    
+    // Use your environment variables
+    std::cout << "Database: " << dbUrl << std::endl;
+    
+    return 0;
+}</code></pre>
+
+      <h3>3. C API</h3>
+      <p>For C compatibility:</p>
+      <pre><code>#include "dotenv.hpp"
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+
+int main() {
+    // Load environment variables
+    CallDotenvLoad(".env");
+    
+    // Access variables
+    const char* port = getenv("PORT");
+    printf("Port: %s\n", port);
+    
+    return 0;
+}</code></pre>
+
+      <h3>4. Dynamic Runtime Loading (Windows)</h3>
+      <p>Load the DLL at runtime without static linking:</p>
+      <pre><code>#include &lt;windows.h&gt;
+#include &lt;iostream&gt;
+
+typedef void (*CallDotenvLoadFunc)(const char*);
+
+int main() {
+    // Load the DLL at runtime
+    HMODULE hDll = LoadLibrary("dotenv.dll");
+    if (!hDll) {
+        std::cerr << "Failed to load dotenv.dll" << std::endl;
+        return 1;
+    }
+
+    // Get the function pointer
+    CallDotenvLoadFunc loadFunc = 
+        (CallDotenvLoadFunc)GetProcAddress(hDll, "CallDotenvLoad");
+    
+    if (!loadFunc) {
+        std::cerr << "Failed to find CallDotenvLoad" << std::endl;
+        FreeLibrary(hDll);
+        return 1;
+    }
+
+    // Call the function
+    loadFunc(".env");
+    
+    // Use environment variables
+    std::cout << "API Key: " << std::getenv("API_KEY") << std::endl;
+    
+    // Clean up
+    FreeLibrary(hDll);
+    return 0;
+}</code></pre>
+
+      <h3>.env File Format</h3>
+      <div class="info">
+        <strong>Supported Features:</strong>
+        <ul>
+          <li>Comments start with <code>#</code></li>
+          <li>Key-value pairs: <code>KEY=value</code></li>
+          <li>Quoted values: <code>KEY="value with spaces"</code></li>
+          <li>Empty lines are ignored</li>
+        </ul>
+      </div>
+
+      <pre><code># Database Configuration
+DATABASE_URL=postgresql://localhost:5432/mydb
+DB_USER=admin
+DB_PASSWORD="secure_password_123"
+
+# API Settings
+API_KEY="sk-1234567890abcdef"
+API_ENDPOINT=https://api.example.com
+
+# Application Settings
+PORT=3000
+DEBUG=true
+LOG_LEVEL=info</code></pre>
+    </section>
+
+    <section id="api">
+      <h2>API Reference</h2>
+
+      <h3>C++ API</h3>
+
+      <h4>Dotenv::load()</h4>
+      <pre><code>static void Dotenv::load(const std::string& filename = ".env");</code></pre>
+      <p><strong>Description:</strong> Loads environment variables from the specified file.</p>
+      <table>
+        <tr>
+          <th>Parameter</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>filename</td>
+          <td>const std::string&</td>
+          <td>Path to the .env file (default: ".env")</td>
+        </tr>
+      </table>
+
+      <h3>C API</h3>
+
+      <h4>CallDotenvLoad()</h4>
+      <pre><code>void CallDotenvLoad(const char* filename_c_str);</code></pre>
+      <p><strong>Description:</strong> C-compatible function to load environment variables.</p>
+      <table>
+        <tr>
+          <th>Parameter</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>filename_c_str</td>
+          <td>const char*</td>
+          <td>Path to the .env file (NULL uses ".env")</td>
+        </tr>
+      </table>
+
+      <h3>Return Values</h3>
+      <p>Both functions return void. If the file cannot be opened, an error message is printed to stderr, but the
+        program continues execution.</p>
+    </section>
+
+    <section id="building">
+      <h2>Building from Source</h2>
+
+      <h3>Requirements</h3>
+      <ul>
+        <li>g++ compiler with C++11 support</li>
+        <li>GNU Make</li>
+        <li>Windows SDK (for code signing on Windows)</li>
+      </ul>
+
+      <h3>Build Commands</h3>
+
+      <h4>Build the Library</h4>
+      <pre><code>make bin/dotenv.dll</code></pre>
+
+      <h4>Clean Build Artifacts</h4>
+      <pre><code>make clean</code></pre>
+
+      <h3>Compiler Flags</h3>
+      <p>The library is built with the following flags:</p>
+      <ul>
+        <li><code>-std=c++11</code> - C++11 standard</li>
+        <li><code>-O2</code> - Optimization level 2</li>
+        <li><code>-Wall -Wextra</code> - All warnings enabled</li>
+        <li><code>-DBUILDING_DOTENV_DLL</code> - Export symbols for DLL</li>
+        <li><code>-static-libgcc -static-libstdc++</code> - Static linking of runtime</li>
+      </ul>
+
+      <h3>Output Files</h3>
+      <ul>
+        <li><code>bin/dotenv.dll</code> - Shared library</li>
+        <li><code>bin/libdotenv.a</code> - Import library</li>
+        <li><code>bin/dotenv.o</code> - Object file</li>
+      </ul>
+    </section>
+
+    <section id="signing">
+      <h2>Code Signing (Windows)</h2>
+
+      <p>For production deployments, you can sign the DLL to verify its authenticity.</p>
+
+      <h3>Create Test Certificate</h3>
+      <p>For testing purposes, create a self-signed certificate:</p>
+      <pre><code>powershell -ExecutionPolicy Bypass -File create-cert.ps1</code></pre>
+
+      <div class="warning">
+        <strong>⚠️ Warning:</strong> Self-signed certificates will trigger security warnings. For production use, obtain
+        a certificate from a trusted Certificate Authority (CA).
+      </div>
+
+      <h3>Sign the DLL</h3>
+      <pre><code>make sign</code></pre>
+
+      <p>This uses the default certificate (<code>certificate.pfx</code>) with password <code>dotenv123</code>.</p>
+
+      <h3>Custom Certificate</h3>
+      <p>To use a different certificate:</p>
+      <pre><code>make sign CERT_FILE=path/to/cert.pfx CERT_PASSWORD=yourpassword</code></pre>
+
+      <h3>Production Certificates</h3>
+      <p>For production use, purchase a code signing certificate from:</p>
+      <ul>
+        <li><a href="https://www.digicert.com">DigiCert</a></li>
+        <li><a href="https://sectigo.com">Sectigo</a></li>
+        <li><a href="https://www.globalsign.com">GlobalSign</a></li>
+      </ul>
+    </section>
+
+    <section id="examples">
+      <h2>Examples</h2>
+
+      <h3>Web Server Configuration</h3>
+      <pre><code>#include "dotenv.hpp"
+#include &lt;iostream&gt;
+#include &lt;cstdlib&gt;
+
+int main() {
+    Dotenv::load(".env");
+    
+    const char* host = std::getenv("SERVER_HOST");
+    const char* port = std::getenv("SERVER_PORT");
+    const char* debug = std::getenv("DEBUG");
+    
+    std::cout << "Starting server on " 
+              << (host ? host : "localhost") 
+              << ":" 
+              << (port ? port : "8080") 
+              << std::endl;
+    
+    if (debug && std::string(debug) == "true") {
+        std::cout << "Debug mode enabled" << std::endl;
+    }
+    
+    return 0;
+}</code></pre>
+
+      <h3>Database Connection</h3>
+      <pre><code>#include "dotenv.hpp"
+#include &lt;iostream&gt;
+#include &lt;cstdlib&gt;
+
+class Database {
+public:
+    static void connect() {
+        Dotenv::load(".env");
+        
+        const char* url = std::getenv("DATABASE_URL");
+        const char* user = std::getenv("DB_USER");
+        const char* pass = std::getenv("DB_PASSWORD");
+        
+        if (!url || !user || !pass) {
+            std::cerr << "Missing database credentials" << std::endl;
+            return;
+        }
+        
+        std::cout << "Connecting to database..." << std::endl;
+        // Your database connection code here
+    }
+};
+
+int main() {
+    Database::connect();
+    return 0;
+}</code></pre>
+    </section>
+
+    <section id="troubleshooting">
+      <h2>Troubleshooting</h2>
+
+      <h3>DLL Not Found</h3>
+      <p>If you get an error that the DLL cannot be loaded:</p>
+      <ul>
+        <li>Ensure <code>dotenv.dll</code> is in the same directory as your executable</li>
+        <li>Add the DLL directory to your system PATH</li>
+        <li>Use an absolute path when calling <code>LoadLibrary()</code></li>
+      </ul>
+
+      <h3>Linking Errors</h3>
+      <p>If you get linking errors:</p>
+      <ul>
+        <li>Make sure you're linking against <code>libdotenv.a</code></li>
+        <li>Verify the library is in your linker's search path</li>
+        <li>Check that <code>BUILDING_DOTENV_DLL</code> is NOT defined when building your application</li>
+      </ul>
+
+      <h3>Environment Variables Not Loading</h3>
+      <ul>
+        <li>Verify the .env file path is correct</li>
+        <li>Check file permissions</li>
+        <li>Ensure the file format is correct (key=value pairs)</li>
+        <li>Check stderr for error messages</li>
+      </ul>
+    </section>
+
+    <section id="contributing">
+      <h2>Contributing</h2>
+      <p>Contributions are welcome! Please feel free to submit a Pull Request.</p>
+      <p>
+        <a href="https://github.com/atrox39/DotenvCpp" class="btn">View on GitHub</a>
+        <a href="https://github.com/atrox39/DotenvCpp/issues" class="btn btn-secondary">Report Issue</a>
+      </p>
+    </section>
+
+    <section id="license">
+      <h2>License</h2>
+      <p>This project is licensed under the MIT License - see the <a
+          href="https://github.com/atrox39/DotenvCpp/blob/master/LICENSE">LICENSE</a> file for details.</p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Dotenv C++ Library. Licensed under MIT License.</p>
+      <p>Made with ❤️ by <a href="https://github.com/atrox39" style="color: #667eea;">atrox39</a></p>
+    </div>
+  </footer>
+</body>
+
+</html>
