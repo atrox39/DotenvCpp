@@ -113,6 +113,9 @@ PORT=3000
 - `bin/libdotenv.a` - Import library for linking
 - `bin/dotenv.o` - Object file
 
+# C# Example usage from my gist
+[Example](https://gist.github.com/atrox39/6b214f17e9f28668fad6a2b556b690bc)
+
 ## License
 
 MIT License - see [LICENSE](LICENSE) file for details.
