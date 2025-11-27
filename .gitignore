@@ -1,0 +1,26 @@
+# Build output
+bin/
+*.o
+*.dll
+*.a
+*.lib
+*.exe
+
+# Certificates
+certificate.pfx
+*.key
+*.crt
+*.pem
+
+# IDE and editor files
+.vscode/
+.vs/
+*.suo
+*.user
+*.swp
+*.swo
+*~
+
+# OS files
+Thumbs.db
+.DS_Store
