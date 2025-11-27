@@ -88,6 +88,9 @@ private:
 };
 
 // C API for runtime DLL loading
+// NOTE: String pointers returned by DotenvGet and DotenvGetLastError
+// are valid until the next call to the same function. Copy the string
+// immediately if you need to preserve the value.
 extern "C" {
   DOTENV_API int DotenvLoad(const char* filename);
   DOTENV_API const char* DotenvGet(const char* key, const char* defaultValue);

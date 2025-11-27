@@ -10,8 +10,13 @@ std::vector<std::string> Dotenv::s_loadedKeys;
 bool Dotenv::s_isLoaded = false;
 std::string Dotenv::s_lastError;
 
-// Thread-safe buffer for C API string returns
-static thread_local std::string s_cApiBuffer;
+// Internal buffer for C API string returns
+// Uses a static buffer within the DLL to avoid cross-boundary issues
+namespace {
+  std::mutex s_cApiMutex;
+  std::string s_cApiGetBuffer;
+  std::string s_cApiErrorBuffer;
+}
 
 std::string Dotenv::trimWhitespace(const std::string& str) {
   size_t start = str.find_first_not_of(" \t\r\n");
@@ -270,13 +275,14 @@ int DotenvLoad(const char* filename) {
 }
 
 const char* DotenvGet(const char* key, const char* defaultValue) {
+  std::lock_guard<std::mutex> lock(s_cApiMutex);
   if (key == nullptr) {
-    s_cApiBuffer = "";
-    return s_cApiBuffer.c_str();
+    s_cApiGetBuffer = "";
+    return s_cApiGetBuffer.c_str();
   }
   std::string defVal = (defaultValue != nullptr) ? defaultValue : "";
-  s_cApiBuffer = Dotenv::get(key, defVal);
-  return s_cApiBuffer.c_str();
+  s_cApiGetBuffer = Dotenv::get(key, defVal);
+  return s_cApiGetBuffer.c_str();
 }
 
 int DotenvHas(const char* key) {
@@ -293,8 +299,9 @@ int DotenvIsLoaded(void) {
 }
 
 const char* DotenvGetLastError(void) {
-  s_cApiBuffer = Dotenv::getLastError();
-  return s_cApiBuffer.c_str();
+  std::lock_guard<std::mutex> lock(s_cApiMutex);
+  s_cApiErrorBuffer = Dotenv::getLastError();
+  return s_cApiErrorBuffer.c_str();
 }
 
 // Legacy function for backwards compatibility
