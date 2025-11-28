@@ -1,10 +1,22 @@
 # Build output
 bin/
+build/
 *.o
 *.dll
+*.so
+*.dylib
 *.a
 *.lib
 *.exe
+
+# CMake files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+!cmake/DotenvCppConfig.cmake.in
+_CPack_Packages/
 
 # Certificates
 certificate.pfx
@@ -20,6 +32,9 @@ certificate.pfx
 *.swp
 *.swo
 *~
+.idea/
+*.xcodeproj/
+*.xcworkspace/
 
 # OS files
 Thumbs.db
@@ -27,3 +42,7 @@ Thumbs.db
 
 # dist script
 dist.ps1
+
+# Test artifacts
+*.env.test
+test_*.env

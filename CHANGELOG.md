@@ -2,6 +2,45 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.0] - 2025-11-27
+
+### Added
+- Cross-platform support for Linux and macOS (in addition to Windows)
+- CMake build system support
+- Thread-safe operations with mutex protection
+- New C++ API methods:
+  - `Dotenv::get()` - Get variable with default value
+  - `Dotenv::has()` - Check if variable exists
+  - `Dotenv::getLoadedKeys()` - Get all loaded keys
+  - `Dotenv::clear()` - Clear loaded variables
+  - `Dotenv::isLoaded()` - Check if loaded
+  - `Dotenv::getLastError()` - Get error message
+- New C API functions:
+  - `DotenvLoad()` - Load with return code
+  - `DotenvGet()` - Get variable with default
+  - `DotenvHas()` - Check if exists
+  - `DotenvClear()` - Clear variables
+  - `DotenvIsLoaded()` - Check loaded state
+  - `DotenvGetLastError()` - Get error message
+- `DotenvError` enum for error handling
+- `DotenvOptions` struct for load configuration
+- Escape sequence support (`\n`, `\t`, `\\`, `\"`, `\'`)
+- Single quote support for values
+- Inline comments support (after space)
+- Whitespace trimming for keys and values
+- Unit test infrastructure
+- Install/uninstall targets for Unix systems
+
+### Changed
+- Upgraded from C++11 to C++17
+- Improved Makefile with automatic platform detection
+- Better cross-platform API export macros
+- `Dotenv::load()` now returns `DotenvError` instead of void
+
+### Fixed
+- Proper visibility attributes for Linux/macOS shared libraries
+- Cross-platform environment variable handling
+
 ## [1.0.0] - 2025-11-27
 
 ### Added
