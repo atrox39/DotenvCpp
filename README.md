@@ -249,7 +249,81 @@ MESSAGE="Line1\nLine2\tTabbed"
 
 ## C# Example
 
-See [C# Example Gist](https://gist.github.com/atrox39/6b214f17e9f28668fad6a2b556b690bc) for usage from .NET applications.
+```csharp
+using System;
+using System.Runtime.InteropServices;
+
+class DotenvExample
+{
+    // Modern C API - Recommended
+    [DllImport("dotenv.dll", CallingConvention = CallingConvention.Cdecl)]
+    public static extern int DotenvLoad(string filename);
+
+    [DllImport("dotenv.dll", CallingConvention = CallingConvention.Cdecl)]
+    public static extern IntPtr DotenvGet(string key, string defaultValue);
+
+    [DllImport("dotenv.dll", CallingConvention = CallingConvention.Cdecl)]
+    public static extern int DotenvHas(string key);
+
+    [DllImport("dotenv.dll", CallingConvention = CallingConvention.Cdecl)]
+    public static extern void DotenvClear();
+
+    [DllImport("dotenv.dll", CallingConvention = CallingConvention.Cdecl)]
+    public static extern int DotenvIsLoaded();
+
+    [DllImport("dotenv.dll", CallingConvention = CallingConvention.Cdecl)]
+    public static extern IntPtr DotenvGetLastError();
+
+    // Legacy function (for backwards compatibility)
+    [DllImport("dotenv.dll", CallingConvention = CallingConvention.Cdecl)]
+    public static extern void CallDotenvLoad(string filename);
+
+    public static void Main()
+    {
+        // Load environment variables from .env file
+        int result = DotenvLoad(".env");
+        if (result != 0)
+        {
+            IntPtr errorPtr = DotenvGetLastError();
+            string error = errorPtr != IntPtr.Zero 
+                ? Marshal.PtrToStringAnsi(errorPtr) 
+                : "Unknown error";
+            Console.WriteLine("Error loading .env: {0}", error);
+            return;
+        }
+
+        // Check if loaded successfully
+        if (DotenvIsLoaded() == 1)
+        {
+            Console.WriteLine("Environment variables loaded successfully!");
+        }
+
+        // Get environment variable with default value
+        IntPtr valuePtr = DotenvGet("CONNECTION_STRING", "default_connection");
+        string connectionString = Marshal.PtrToStringAnsi(valuePtr);
+        Console.WriteLine("Connection string: {0}", connectionString);
+
+        // Check if a variable exists
+        if (DotenvHas("API_KEY") == 1)
+        {
+            IntPtr apiKeyPtr = DotenvGet("API_KEY", "");
+            string apiKey = Marshal.PtrToStringAnsi(apiKeyPtr);
+            Console.WriteLine("API Key: {0}", apiKey);
+        }
+
+        // You can also use standard .NET methods after loading
+        string dbUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+        Console.WriteLine("Database URL from Environment: {0}", dbUrl);
+
+        // Clear loaded variables when done
+        DotenvClear();
+    }
+}
+```
+
+> **Note:** On Linux, use `libdotenv.so` instead of `dotenv.dll`. On macOS, use `libdotenv.dylib`.
+
+See also: [C# Example Gist](https://gist.github.com/atrox39/6b214f17e9f28668fad6a2b556b690bc)
 
 ## License
 
