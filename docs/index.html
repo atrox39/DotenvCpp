@@ -42,6 +42,15 @@
       opacity: 0.9;
     }
 
+    .version-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
+
     nav {
       background: white;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -118,6 +127,13 @@
       font-family: 'Courier New', monospace;
     }
 
+    .inline-code {
+      background: #f4f4f4;
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+
     .feature-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -185,6 +201,14 @@
       border-radius: 4px;
     }
 
+    .success {
+      background: #d4edda;
+      border-left: 4px solid #28a745;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 4px;
+    }
+
     ul,
     ol {
       margin-left: 2rem;
@@ -217,6 +241,26 @@
     tr:hover {
       background: #f8f9fa;
     }
+
+    .platform-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .platform-tab {
+      padding: 0.5rem 1rem;
+      background: #e9ecef;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .platform-tab.active {
+      background: #667eea;
+      color: white;
+    }
   </style>
 </head>
 
@@ -224,7 +268,8 @@
   <header>
     <div class="container">
       <h1>🔐 Dotenv C++ Library</h1>
-      <p>Load environment variables from .env files with ease</p>
+      <p>A cross-platform C++ library for loading environment variables from .env files</p>
+      <span class="version-badge">v2.0.0</span>
     </div>
   </header>
 
@@ -245,9 +290,8 @@
   <main class="container">
     <section id="overview">
       <h2>Overview</h2>
-      <p>Dotenv C++ is a lightweight library that allows you to load environment variables from <code>.env</code> files
-        into your application. This is particularly useful for managing configuration across different environments
-        without hardcoding sensitive information.</p>
+      <p>Dotenv C++ is a lightweight, cross-platform library that allows you to load environment variables from <code>.env</code> files
+        into your application. Designed for runtime DLL/shared library usage with thread-safe operations.</p>
 
       <div class="feature-grid">
         <div class="feature-card">
@@ -256,15 +300,15 @@
         </div>
         <div class="feature-card">
           <h4>🔤 Quoted Values</h4>
-          <p>Full support for quoted string values</p>
+          <p>Support for single and double quoted string values</p>
         </div>
         <div class="feature-card">
           <h4>🌐 Cross-Platform</h4>
-          <p>Works on Windows and Linux systems</p>
+          <p>Works on Windows, Linux, and macOS systems</p>
         </div>
         <div class="feature-card">
           <h4>📦 Shared Library</h4>
-          <p>Distributed as DLL for easy integration</p>
+          <p>Distributed as DLL/SO/DYLIB for easy integration</p>
         </div>
         <div class="feature-card">
           <h4>🔌 Multiple APIs</h4>
@@ -273,6 +317,30 @@
         <div class="feature-card">
           <h4>⚡ Dynamic Loading</h4>
           <p>Runtime DLL loading supported</p>
+        </div>
+        <div class="feature-card">
+          <h4>🔒 Thread-Safe</h4>
+          <p>Mutex-protected operations for concurrent access</p>
+        </div>
+        <div class="feature-card">
+          <h4>⚠️ Error Handling</h4>
+          <p>Proper error codes and messages</p>
+        </div>
+        <div class="feature-card">
+          <h4>💬 Inline Comments</h4>
+          <p>Support for comments after values</p>
+        </div>
+        <div class="feature-card">
+          <h4>🔄 Escape Sequences</h4>
+          <p>Support for \n, \t, \\ escape sequences</p>
+        </div>
+        <div class="feature-card">
+          <h4>✂️ Whitespace Trimming</h4>
+          <p>Automatic trimming of keys and values</p>
+        </div>
+        <div class="feature-card">
+          <h4>🔧 CMake Support</h4>
+          <p>Modern CMake and Makefile build systems</p>
         </div>
       </div>
     </section>
@@ -284,19 +352,42 @@
       <p>Download the latest release from the <a href="https://github.com/atrox39/DotenvCpp/releases">GitHub releases
           page</a>.</p>
 
-      <h3>Files Included</h3>
-      <ul>
-        <li><code>dotenv.dll</code> - The shared library</li>
-        <li><code>libdotenv.a</code> - Import library for linking</li>
-        <li><code>dotenv.hpp</code> - C++ header file</li>
-      </ul>
+      <h3>Files by Platform</h3>
+      <table>
+        <tr>
+          <th>Platform</th>
+          <th>Library</th>
+          <th>Import Library</th>
+        </tr>
+        <tr>
+          <td>Windows</td>
+          <td><code>dotenv.dll</code></td>
+          <td><code>libdotenv.a</code></td>
+        </tr>
+        <tr>
+          <td>Linux</td>
+          <td><code>libdotenv.so</code></td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <td>macOS</td>
+          <td><code>libdotenv.dylib</code></td>
+          <td>-</td>
+        </tr>
+      </table>
 
       <h3>Quick Setup</h3>
       <ol>
-        <li>Copy <code>dotenv.dll</code> and <code>libdotenv.a</code> to your project's library directory</li>
+        <li>Copy the shared library to your project's library directory</li>
         <li>Copy <code>dotenv.hpp</code> to your project's include directory</li>
         <li>Link against the library in your build configuration</li>
       </ol>
+
+      <h3>Requirements</h3>
+      <ul>
+        <li>C++17 compatible compiler (g++, clang++, MSVC)</li>
+        <li>CMake 3.10+ or GNU Make</li>
+      </ul>
     </section>
 
     <section id="usage">
@@ -306,40 +397,82 @@
       <pre><code># .env file
 DATABASE_URL=postgresql://localhost/mydb
 API_KEY="your-api-key-here"
+SECRET='single-quoted-value'
 PORT=3000
-DEBUG=true</code></pre>
+DEBUG=true
+
+# Inline comments
+HOST=localhost # This is the server host
+
+# Escape sequences (in double quotes)
+MESSAGE="Line1\nLine2\tTabbed"
+
+# Whitespace is trimmed
+  KEY_WITH_SPACES  =  value with spaces trimmed  </code></pre>
 
       <h3>2. C++ API</h3>
-      <p>The simplest way to use the library:</p>
+      <p>The modern C++ API with error handling:</p>
       <pre><code>#include "dotenv.hpp"
+#include &lt;iostream&gt;
 
 int main() {
     // Load environment variables from .env
-    Dotenv::load(".env");
+    DotenvError result = Dotenv::load(".env");
+    if (result != DotenvError::Success) {
+        std::cerr &lt;&lt; "Error: " &lt;&lt; Dotenv::getLastError() &lt;&lt; std::endl;
+        return 1;
+    }
     
-    // Access variables using standard methods
-    const char* dbUrl = std::getenv("DATABASE_URL");
-    const char* apiKey = std::getenv("API_KEY");
+    // Get environment variables with default values
+    std::string dbUrl = Dotenv::get("DATABASE_URL", "localhost");
+    std::string apiKey = Dotenv::get("API_KEY");
     
-    // Use your environment variables
-    std::cout << "Database: " << dbUrl << std::endl;
+    // Check if a variable exists
+    if (Dotenv::has("DEBUG")) {
+        std::cout &lt;&lt; "Debug mode enabled" &lt;&lt; std::endl;
+    }
+    
+    // Get all loaded keys
+    auto keys = Dotenv::getLoadedKeys();
+    for (const auto&amp; key : keys) {
+        std::cout &lt;&lt; "Loaded: " &lt;&lt; key &lt;&lt; std::endl;
+    }
+    
+    // Clear all loaded variables
+    Dotenv::clear();
     
     return 0;
 }</code></pre>
 
       <h3>3. C API</h3>
-      <p>For C compatibility:</p>
+      <p>For C compatibility and runtime DLL loading:</p>
       <pre><code>#include "dotenv.hpp"
-#include &lt;stdlib.h&gt;
 #include &lt;stdio.h&gt;
 
 int main() {
     // Load environment variables
-    CallDotenvLoad(".env");
+    int result = DotenvLoad(".env");
+    if (result != 0) {
+        printf("Error: %s\n", DotenvGetLastError());
+        return 1;
+    }
     
-    // Access variables
-    const char* port = getenv("PORT");
+    // Get variables with default value
+    const char* port = DotenvGet("PORT", "8080");
     printf("Port: %s\n", port);
+    
+    // Check if variable exists
+    if (DotenvHas("DEBUG")) {
+        printf("Debug mode enabled\n");
+    }
+    
+    // Check if loaded
+    if (DotenvIsLoaded()) {
+        printf("Environment loaded successfully\n");
+    }
+    
+    // Clear loaded variables
+    DotenvClear();
     
     return 0;
 }</code></pre>
@@ -349,34 +482,70 @@ int main() {
       <pre><code>#include &lt;windows.h&gt;
 #include &lt;iostream&gt;
 
-typedef void (*CallDotenvLoadFunc)(const char*);
+typedef int (*DotenvLoadFunc)(const char*);
+typedef const char* (*DotenvGetFunc)(const char*, const char*);
+typedef int (*DotenvHasFunc)(const char*);
 
 int main() {
     // Load the DLL at runtime
     HMODULE hDll = LoadLibrary("dotenv.dll");
     if (!hDll) {
-        std::cerr << "Failed to load dotenv.dll" << std::endl;
+        std::cerr &lt;&lt; "Failed to load dotenv.dll" &lt;&lt; std::endl;
         return 1;
     }
 
-    // Get the function pointer
-    CallDotenvLoadFunc loadFunc = 
-        (CallDotenvLoadFunc)GetProcAddress(hDll, "CallDotenvLoad");
+    // Get function pointers
+    auto loadFunc = (DotenvLoadFunc)GetProcAddress(hDll, "DotenvLoad");
+    auto getFunc = (DotenvGetFunc)GetProcAddress(hDll, "DotenvGet");
+    auto hasFunc = (DotenvHasFunc)GetProcAddress(hDll, "DotenvHas");
     
-    if (!loadFunc) {
-        std::cerr << "Failed to find CallDotenvLoad" << std::endl;
-        FreeLibrary(hDll);
-        return 1;
+    if (loadFunc &amp;&amp; getFunc) {
+        loadFunc(".env");
+        std::cout &lt;&lt; "API Key: " &lt;&lt; getFunc("API_KEY", "") &lt;&lt; std::endl;
+        
+        if (hasFunc &amp;&amp; hasFunc("DEBUG")) {
+            std::cout &lt;&lt; "Debug mode enabled" &lt;&lt; std::endl;
+        }
     }
-
-    // Call the function
-    loadFunc(".env");
-    
-    // Use environment variables
-    std::cout << "API Key: " << std::getenv("API_KEY") << std::endl;
     
     // Clean up
     FreeLibrary(hDll);
+    return 0;
+}</code></pre>
+
+      <h3>5. Dynamic Runtime Loading (Linux/macOS)</h3>
+      <p>Load the shared library at runtime on Unix systems:</p>
+      <pre><code>#include &lt;dlfcn.h&gt;
+#include &lt;iostream&gt;
+
+typedef int (*DotenvLoadFunc)(const char*);
+typedef const char* (*DotenvGetFunc)(const char*, const char*);
+typedef int (*DotenvHasFunc)(const char*);
+
+int main() {
+    // Load the shared library
+    void* handle = dlopen("./libdotenv.so", RTLD_LAZY);  // Use .dylib on macOS
+    if (!handle) {
+        std::cerr &lt;&lt; "Failed to load library: " &lt;&lt; dlerror() &lt;&lt; std::endl;
+        return 1;
+    }
+
+    // Get function pointers
+    auto loadFunc = (DotenvLoadFunc)dlsym(handle, "DotenvLoad");
+    auto getFunc = (DotenvGetFunc)dlsym(handle, "DotenvGet");
+    auto hasFunc = (DotenvHasFunc)dlsym(handle, "DotenvHas");
+    
+    if (loadFunc &amp;&amp; getFunc) {
+        loadFunc(".env");
+        std::cout &lt;&lt; "API Key: " &lt;&lt; getFunc("API_KEY", "") &lt;&lt; std::endl;
+        
+        if (hasFunc &amp;&amp; hasFunc("DEBUG")) {
+            std::cout &lt;&lt; "Debug mode enabled" &lt;&lt; std::endl;
+        }
+    }
+    
+    // Clean up
+    dlclose(handle);
     return 0;
 }</code></pre>
 
@@ -386,7 +555,11 @@ int main() {
         <ul>
           <li>Comments start with <code>#</code></li>
           <li>Key-value pairs: <code>KEY=value</code></li>
-          <li>Quoted values: <code>KEY="value with spaces"</code></li>
+          <li>Double quoted values: <code>KEY="value with spaces"</code></li>
+          <li>Single quoted values: <code>KEY='value'</code></li>
+          <li>Inline comments: <code>KEY=value # comment</code></li>
+          <li>Escape sequences: <code>\n</code>, <code>\t</code>, <code>\\</code></li>
+          <li>Whitespace trimming on keys and values</li>
           <li>Empty lines are ignored</li>
         </ul>
       </div>
@@ -403,16 +576,20 @@ API_ENDPOINT=https://api.example.com
 # Application Settings
 PORT=3000
 DEBUG=true
-LOG_LEVEL=info</code></pre>
+LOG_LEVEL=info
+
+# Escape sequences example
+MULTILINE="Line 1\nLine 2\nLine 3"</code></pre>
     </section>
 
     <section id="api">
       <h2>API Reference</h2>
 
-      <h3>C++ API</h3>
+      <h3>C++ API (Dotenv class)</h3>
 
       <h4>Dotenv::load()</h4>
-      <pre><code>static void Dotenv::load(const std::string& filename = ".env");</code></pre>
+      <pre><code>static DotenvError Dotenv::load(const std::string&amp; filename = ".env");
+static DotenvError Dotenv::load(const std::string&amp; filename, const DotenvOptions&amp; options);</code></pre>
       <p><strong>Description:</strong> Loads environment variables from the specified file.</p>
       <table>
         <tr>
@@ -422,16 +599,20 @@ LOG_LEVEL=info</code></pre>
         </tr>
         <tr>
           <td>filename</td>
-          <td>const std::string&</td>
+          <td>const std::string&amp;</td>
           <td>Path to the .env file (default: ".env")</td>
         </tr>
+        <tr>
+          <td>options</td>
+          <td>const DotenvOptions&amp;</td>
+          <td>Optional configuration for loading behavior</td>
+        </tr>
       </table>
+      <p><strong>Returns:</strong> <code>DotenvError</code> enum value indicating success or failure.</p>
 
-      <h3>C API</h3>
-
-      <h4>CallDotenvLoad()</h4>
-      <pre><code>void CallDotenvLoad(const char* filename_c_str);</code></pre>
-      <p><strong>Description:</strong> C-compatible function to load environment variables.</p>
+      <h4>Dotenv::get()</h4>
+      <pre><code>static std::string Dotenv::get(const std::string&amp; key, const std::string&amp; defaultValue = "");</code></pre>
+      <p><strong>Description:</strong> Retrieves the value of an environment variable.</p>
       <table>
         <tr>
           <th>Parameter</th>
@@ -439,15 +620,154 @@ LOG_LEVEL=info</code></pre>
           <th>Description</th>
         </tr>
         <tr>
-          <td>filename_c_str</td>
-          <td>const char*</td>
-          <td>Path to the .env file (NULL uses ".env")</td>
+          <td>key</td>
+          <td>const std::string&amp;</td>
+          <td>The name of the environment variable</td>
+        </tr>
+        <tr>
+          <td>defaultValue</td>
+          <td>const std::string&amp;</td>
+          <td>Value to return if variable doesn't exist (default: "")</td>
+        </tr>
+      </table>
+      <p><strong>Returns:</strong> The value of the variable or the default value.</p>
+
+      <h4>Dotenv::has()</h4>
+      <pre><code>static bool Dotenv::has(const std::string&amp; key);</code></pre>
+      <p><strong>Description:</strong> Checks if an environment variable exists.</p>
+      <p><strong>Returns:</strong> <code>true</code> if the variable exists, <code>false</code> otherwise.</p>
+
+      <h4>Dotenv::getLoadedKeys()</h4>
+      <pre><code>static std::vector&lt;std::string&gt; Dotenv::getLoadedKeys();</code></pre>
+      <p><strong>Description:</strong> Returns a list of all keys that were loaded from the .env file.</p>
+      <p><strong>Returns:</strong> Vector of key names.</p>
+
+      <h4>Dotenv::clear()</h4>
+      <pre><code>static void Dotenv::clear();</code></pre>
+      <p><strong>Description:</strong> Clears all environment variables that were loaded by the library.</p>
+
+      <h4>Dotenv::isLoaded()</h4>
+      <pre><code>static bool Dotenv::isLoaded();</code></pre>
+      <p><strong>Description:</strong> Checks if any .env file has been successfully loaded.</p>
+      <p><strong>Returns:</strong> <code>true</code> if loaded, <code>false</code> otherwise.</p>
+
+      <h4>Dotenv::getLastError()</h4>
+      <pre><code>static std::string Dotenv::getLastError();</code></pre>
+      <p><strong>Description:</strong> Gets the error message from the last operation.</p>
+      <p><strong>Returns:</strong> Error message string.</p>
+
+      <h3>DotenvOptions Structure</h3>
+      <pre><code>struct DotenvOptions {
+    bool overwrite = true;       // Overwrite existing env vars
+    bool interpolate = false;    // Interpolate variables ${VAR}
+    bool stripQuotes = true;     // Strip quotes from values
+    bool trimWhitespace = true;  // Trim whitespace from keys and values
+};</code></pre>
+
+      <h3>Error Codes (DotenvError)</h3>
+      <table>
+        <tr>
+          <th>Code</th>
+          <th>Value</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td><code>Success</code></td>
+          <td>0</td>
+          <td>Operation completed successfully</td>
+        </tr>
+        <tr>
+          <td><code>FileNotFound</code></td>
+          <td>1</td>
+          <td>Could not open the specified file</td>
+        </tr>
+        <tr>
+          <td><code>ParseError</code></td>
+          <td>2</td>
+          <td>Error parsing the file contents</td>
+        </tr>
+        <tr>
+          <td><code>InvalidKey</code></td>
+          <td>3</td>
+          <td>Invalid key format encountered</td>
         </tr>
       </table>
 
-      <h3>Return Values</h3>
-      <p>Both functions return void. If the file cannot be opened, an error message is printed to stderr, but the
-        program continues execution.</p>
+      <h3>C API Functions</h3>
+
+      <div class="info">
+        <strong>Note:</strong> String pointers returned by <code>DotenvGet</code> and <code>DotenvGetLastError</code>
+        are valid until the next call to the same function. Copy the string immediately if you need to preserve the value.
+      </div>
+
+      <h4>DotenvLoad()</h4>
+      <pre><code>int DotenvLoad(const char* filename);</code></pre>
+      <p><strong>Description:</strong> Loads environment variables from the specified file.</p>
+      <p><strong>Returns:</strong> 0 on success, error code on failure.</p>
+
+      <h4>DotenvGet()</h4>
+      <pre><code>const char* DotenvGet(const char* key, const char* defaultValue);</code></pre>
+      <p><strong>Description:</strong> Retrieves the value of an environment variable.</p>
+      <p><strong>Returns:</strong> Pointer to the value string or default value.</p>
+
+      <h4>DotenvHas()</h4>
+      <pre><code>int DotenvHas(const char* key);</code></pre>
+      <p><strong>Description:</strong> Checks if an environment variable exists.</p>
+      <p><strong>Returns:</strong> 1 if exists, 0 otherwise.</p>
+
+      <h4>DotenvClear()</h4>
+      <pre><code>void DotenvClear(void);</code></pre>
+      <p><strong>Description:</strong> Clears all loaded environment variables.</p>
+
+      <h4>DotenvIsLoaded()</h4>
+      <pre><code>int DotenvIsLoaded(void);</code></pre>
+      <p><strong>Description:</strong> Checks if the library has loaded any file.</p>
+      <p><strong>Returns:</strong> 1 if loaded, 0 otherwise.</p>
+
+      <h4>DotenvGetLastError()</h4>
+      <pre><code>const char* DotenvGetLastError(void);</code></pre>
+      <p><strong>Description:</strong> Gets the last error message.</p>
+      <p><strong>Returns:</strong> Pointer to error message string.</p>
+
+      <h4>CallDotenvLoad() (Legacy)</h4>
+      <pre><code>void CallDotenvLoad(const char* filename_c_str);</code></pre>
+      <p><strong>Description:</strong> Legacy function for backwards compatibility. Use <code>DotenvLoad</code> instead.</p>
+
+      <h3>C API Summary Table</h3>
+      <table>
+        <tr>
+          <th>Function</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td><code>DotenvLoad(filename)</code></td>
+          <td>Load variables, returns 0 on success</td>
+        </tr>
+        <tr>
+          <td><code>DotenvGet(key, default)</code></td>
+          <td>Get variable value</td>
+        </tr>
+        <tr>
+          <td><code>DotenvHas(key)</code></td>
+          <td>Returns 1 if exists, 0 otherwise</td>
+        </tr>
+        <tr>
+          <td><code>DotenvClear()</code></td>
+          <td>Clear all loaded variables</td>
+        </tr>
+        <tr>
+          <td><code>DotenvIsLoaded()</code></td>
+          <td>Returns 1 if loaded, 0 otherwise</td>
+        </tr>
+        <tr>
+          <td><code>DotenvGetLastError()</code></td>
+          <td>Get last error message</td>
+        </tr>
+        <tr>
+          <td><code>CallDotenvLoad(filename)</code></td>
+          <td>Legacy function (backward compatible)</td>
+        </tr>
+      </table>
     </section>
 
     <section id="building">
@@ -455,35 +775,80 @@ LOG_LEVEL=info</code></pre>
 
       <h3>Requirements</h3>
       <ul>
-        <li>g++ compiler with C++11 support</li>
-        <li>GNU Make</li>
+        <li>C++17 compatible compiler (g++, clang++, MSVC)</li>
+        <li>CMake 3.10+ or GNU Make</li>
         <li>Windows SDK (for code signing on Windows)</li>
       </ul>
 
-      <h3>Build Commands</h3>
+      <h3>Build with CMake (Recommended)</h3>
+      <pre><code># Create build directory
+mkdir build &amp;&amp; cd build
+
+# Configure
+cmake ..
+
+# Build
+cmake --build .
+
+# Run tests
+ctest --output-on-failure</code></pre>
+
+      <h3>Build with Make</h3>
 
       <h4>Build the Library</h4>
-      <pre><code>make bin/dotenv.dll</code></pre>
+      <pre><code># Build the library (auto-detects platform)
+make
+
+# Or explicitly
+make lib</code></pre>
+
+      <h4>Run Tests</h4>
+      <pre><code>make test</code></pre>
 
       <h4>Clean Build Artifacts</h4>
       <pre><code>make clean</code></pre>
 
+      <h4>Install (Unix Systems)</h4>
+      <pre><code>sudo make install
+
+# Or with custom prefix
+sudo make install PREFIX=/usr/local</code></pre>
+
       <h3>Compiler Flags</h3>
       <p>The library is built with the following flags:</p>
       <ul>
-        <li><code>-std=c++11</code> - C++11 standard</li>
+        <li><code>-std=c++17</code> - C++17 standard</li>
         <li><code>-O2</code> - Optimization level 2</li>
         <li><code>-Wall -Wextra</code> - All warnings enabled</li>
         <li><code>-DBUILDING_DOTENV_DLL</code> - Export symbols for DLL</li>
-        <li><code>-static-libgcc -static-libstdc++</code> - Static linking of runtime</li>
+        <li><code>-fPIC</code> - Position independent code (Unix)</li>
+        <li><code>-fvisibility=hidden</code> - Hidden visibility by default (Unix)</li>
+        <li><code>-static-libgcc -static-libstdc++</code> - Static linking of runtime (Windows)</li>
       </ul>
 
-      <h3>Output Files</h3>
-      <ul>
-        <li><code>bin/dotenv.dll</code> - Shared library</li>
-        <li><code>bin/libdotenv.a</code> - Import library</li>
-        <li><code>bin/dotenv.o</code> - Object file</li>
-      </ul>
+      <h3>Output Files by Platform</h3>
+      <table>
+        <tr>
+          <th>Platform</th>
+          <th>Library</th>
+          <th>Object File</th>
+        </tr>
+        <tr>
+          <td>Windows</td>
+          <td><code>bin/dotenv.dll</code>, <code>bin/libdotenv.a</code></td>
+          <td><code>bin/dotenv.o</code></td>
+        </tr>
+        <tr>
+          <td>Linux</td>
+          <td><code>bin/libdotenv.so</code></td>
+          <td><code>bin/dotenv.o</code></td>
+        </tr>
+        <tr>
+          <td>macOS</td>
+          <td><code>bin/libdotenv.dylib</code></td>
+          <td><code>bin/dotenv.o</code></td>
+        </tr>
+      </table>
     </section>
 
     <section id="signing">
@@ -524,23 +889,24 @@ LOG_LEVEL=info</code></pre>
       <h3>Web Server Configuration</h3>
       <pre><code>#include "dotenv.hpp"
 #include &lt;iostream&gt;
-#include &lt;cstdlib&gt;
 
 int main() {
-    Dotenv::load(".env");
+    // Load with error handling
+    DotenvError result = Dotenv::load(".env");
+    if (result != DotenvError::Success) {
+        std::cerr &lt;&lt; "Failed to load .env: " &lt;&lt; Dotenv::getLastError() &lt;&lt; std::endl;
+        return 1;
+    }
     
-    const char* host = std::getenv("SERVER_HOST");
-    const char* port = std::getenv("SERVER_PORT");
-    const char* debug = std::getenv("DEBUG");
+    // Get configuration with defaults
+    std::string host = Dotenv::get("SERVER_HOST", "localhost");
+    std::string port = Dotenv::get("SERVER_PORT", "8080");
     
-    std::cout << "Starting server on " 
-              << (host ? host : "localhost") 
-              << ":" 
-              << (port ? port : "8080") 
-              << std::endl;
+    std::cout &lt;&lt; "Starting server on " &lt;&lt; host &lt;&lt; ":" &lt;&lt; port &lt;&lt; std::endl;
     
-    if (debug && std::string(debug) == "true") {
-        std::cout << "Debug mode enabled" << std::endl;
+    // Check debug mode
+    if (Dotenv::has("DEBUG") &amp;&amp; Dotenv::get("DEBUG") == "true") {
+        std::cout &lt;&lt; "Debug mode enabled" &lt;&lt; std::endl;
     }
     
     return 0;
@@ -549,29 +915,91 @@ int main() {
       <h3>Database Connection</h3>
       <pre><code>#include "dotenv.hpp"
 #include &lt;iostream&gt;
-#include &lt;cstdlib&gt;
 
 class Database {
 public:
-    static void connect() {
-        Dotenv::load(".env");
-        
-        const char* url = std::getenv("DATABASE_URL");
-        const char* user = std::getenv("DB_USER");
-        const char* pass = std::getenv("DB_PASSWORD");
-        
-        if (!url || !user || !pass) {
-            std::cerr << "Missing database credentials" << std::endl;
-            return;
+    static bool connect() {
+        if (Dotenv::load(".env") != DotenvError::Success) {
+            std::cerr &lt;&lt; "Failed to load configuration" &lt;&lt; std::endl;
+            return false;
         }
         
-        std::cout << "Connecting to database..." << std::endl;
+        // Check required variables
+        if (!Dotenv::has("DATABASE_URL") || 
+            !Dotenv::has("DB_USER") || 
+            !Dotenv::has("DB_PASSWORD")) {
+            std::cerr &lt;&lt; "Missing database credentials" &lt;&lt; std::endl;
+            return false;
+        }
+        
+        std::string url = Dotenv::get("DATABASE_URL");
+        std::string user = Dotenv::get("DB_USER");
+        std::string pass = Dotenv::get("DB_PASSWORD");
+        
+        std::cout &lt;&lt; "Connecting to database..." &lt;&lt; std::endl;
         // Your database connection code here
+        
+        return true;
     }
 };
 
 int main() {
-    Database::connect();
+    if (!Database::connect()) {
+        return 1;
+    }
+    return 0;
+}</code></pre>
+
+      <h3>List All Loaded Variables</h3>
+      <pre><code>#include "dotenv.hpp"
+#include &lt;iostream&gt;
+
+int main() {
+    Dotenv::load(".env");
+    
+    std::cout &lt;&lt; "Loaded environment variables:" &lt;&lt; std::endl;
+    for (const auto&amp; key : Dotenv::getLoadedKeys()) {
+        std::cout &lt;&lt; "  " &lt;&lt; key &lt;&lt; "=" &lt;&lt; Dotenv::get(key) &lt;&lt; std::endl;
+    }
+    
+    return 0;
+}</code></pre>
+
+      <h3>C API with Runtime Loading</h3>
+      <pre><code>#include &lt;stdio.h&gt;
+#include &lt;dlfcn.h&gt;  // Use windows.h on Windows
+
+typedef int (*DotenvLoadFunc)(const char*);
+typedef const char* (*DotenvGetFunc)(const char*, const char*);
+typedef int (*DotenvHasFunc)(const char*);
+typedef void (*DotenvClearFunc)(void);
+
+int main() {
+    void* lib = dlopen("./libdotenv.so", RTLD_LAZY);
+    if (!lib) {
+        printf("Failed to load library\n");
+        return 1;
+    }
+    
+    // Get function pointers
+    DotenvLoadFunc load = dlsym(lib, "DotenvLoad");
+    DotenvGetFunc get = dlsym(lib, "DotenvGet");
+    DotenvHasFunc has = dlsym(lib, "DotenvHas");
+    DotenvClearFunc clear = dlsym(lib, "DotenvClear");
+    
+    // Use the library
+    if (load(".env") == 0) {
+        printf("Database: %s\n", get("DATABASE_URL", "not set"));
+        
+        if (has("API_KEY")) {
+            printf("API Key is configured\n");
+        }
+    }
+    
+    // Cleanup
+    clear();
+    dlclose(lib);
+    
     return 0;
 }</code></pre>
     </section>
@@ -579,28 +1007,45 @@ int main() {
     <section id="troubleshooting">
       <h2>Troubleshooting</h2>
 
-      <h3>DLL Not Found</h3>
-      <p>If you get an error that the DLL cannot be loaded:</p>
+      <h3>DLL/Shared Library Not Found</h3>
+      <p>If you get an error that the library cannot be loaded:</p>
       <ul>
-        <li>Ensure <code>dotenv.dll</code> is in the same directory as your executable</li>
-        <li>Add the DLL directory to your system PATH</li>
-        <li>Use an absolute path when calling <code>LoadLibrary()</code></li>
+        <li><strong>Windows:</strong> Ensure <code>dotenv.dll</code> is in the same directory as your executable or in the system PATH</li>
+        <li><strong>Linux:</strong> Use <code>LD_LIBRARY_PATH</code> or install to a standard location</li>
+        <li><strong>macOS:</strong> Use <code>DYLD_LIBRARY_PATH</code> or use <code>@rpath</code></li>
+        <li>Use an absolute path when calling <code>LoadLibrary()</code> or <code>dlopen()</code></li>
       </ul>
 
       <h3>Linking Errors</h3>
       <p>If you get linking errors:</p>
       <ul>
-        <li>Make sure you're linking against <code>libdotenv.a</code></li>
+        <li>Make sure you're linking against the correct library for your platform</li>
         <li>Verify the library is in your linker's search path</li>
         <li>Check that <code>BUILDING_DOTENV_DLL</code> is NOT defined when building your application</li>
+        <li>On Windows, link against <code>libdotenv.a</code> (import library)</li>
       </ul>
 
       <h3>Environment Variables Not Loading</h3>
       <ul>
-        <li>Verify the .env file path is correct</li>
+        <li>Verify the .env file path is correct (use absolute paths if needed)</li>
         <li>Check file permissions</li>
         <li>Ensure the file format is correct (key=value pairs)</li>
-        <li>Check stderr for error messages</li>
+        <li>Check <code>Dotenv::getLastError()</code> for error messages</li>
+        <li>Verify the return value of <code>DotenvLoad()</code> or <code>Dotenv::load()</code></li>
+      </ul>
+
+      <h3>Thread Safety Issues</h3>
+      <ul>
+        <li>All library functions are thread-safe</li>
+        <li>String pointers from C API are valid only until the next call to the same function</li>
+        <li>Copy strings immediately if you need to preserve values across calls</li>
+      </ul>
+
+      <h3>Cross-Platform Build Issues</h3>
+      <ul>
+        <li>Ensure you have a C++17 compatible compiler</li>
+        <li>Use CMake for the most reliable cross-platform builds</li>
+        <li>The Makefile auto-detects the platform (Windows/Linux/macOS)</li>
       </ul>
     </section>
 
