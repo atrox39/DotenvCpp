@@ -285,7 +285,9 @@ class DotenvExample
         if (result != 0)
         {
             IntPtr errorPtr = DotenvGetLastError();
-            string error = Marshal.PtrToStringAnsi(errorPtr);
+            string error = errorPtr != IntPtr.Zero 
+                ? Marshal.PtrToStringAnsi(errorPtr) 
+                : "Unknown error";
             Console.WriteLine("Error loading .env: {0}", error);
             return;
         }
